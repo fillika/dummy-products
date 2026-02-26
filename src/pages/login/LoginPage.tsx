@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../features/auth/api";
-import { Button, LoginInput, PasswordInput } from "../../shared/ui";
+import { Button, LoginInput, PasswordInput, Checkbox } from "../../shared/ui";
 import { toast } from "sonner";
 import { Logo } from "./Logo";
 
@@ -50,10 +50,10 @@ export const LoginPage = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#f9f9f9]">
-            <div className="rounded-[40px] bg-[#fff] p-[6px]" style={{
+            <div className="rounded-[40px] bg-[#fff] p-[6px] w-full max-w-[527px]" style={{
                 boxShadow: "0px 24px 32px rgba(0, 0, 0, 0.04)",
             }}>
-                <div className="w-full max-w-[515px] p-[48px] flex-column items-center justify-center rounded-[34px]" style={{
+                <div className="w-full p-[48px] flex-column items-center justify-center rounded-[34px]" style={{
                     background: "linear-gradient(181deg, rgba(35, 35, 35, 0.03) 0%, rgba(35, 35, 35, 0) 50%)",
                 }}>
                     <Logo />
@@ -61,7 +61,7 @@ export const LoginPage = () => {
                         <div className="text-[#232323] text-[40px] font-semibold leading-[1.1] tracking-[-1.5%] mb-3">
                             Добро пожаловать!
                         </div>
-                        <div className="text-[18px] font-medium leading-[1.5] text-center bg-gradient-to-b from-gray-500 to-[#E0E0E0] bg-clip-text text-transparent">
+                        <div className="text-[18px] font-medium leading-[1.5] text-center bg-gradient-to-b from-gray-400 to-[#E0E0E0] bg-clip-text text-transparent">
                             Пожалуйста, авторизуйтесь
                         </div>
                     </div>
@@ -93,17 +93,11 @@ export const LoginPage = () => {
                                 name="rememberMe"
                                 control={control}
                                 render={({ field }) => (
-                                    <label className="flex items-center cursor-pointer">
-                                        <input
-                                            type="checkbox"
-                                            className="w-[18px] h-[18px] border-[2px] border-[#ededed] rounded-[6px] cursor-pointer"
-                                            checked={field.value}
-                                            onChange={field.onChange}
-                                        />
-                                        <span className="ml-[10px] text-[16px] font-medium leading-[1.5] text-[#9C9C9C]">
-                                            Запомнить данные
-                                        </span>
-                                    </label>
+                                    <Checkbox
+                                        checked={!!field.value}
+                                        onChange={field.onChange}
+                                        label="Запомнить данные"
+                                    />
                                 )}
                             />
                         </div>
@@ -120,9 +114,9 @@ export const LoginPage = () => {
                             <span className="text-[18px] letter-spacing-[0.01em] leading-[1.2]">Войти</span>
                         </Button>
                         <div className="flex items-center justify-center">
-                            <span className="w-full h-[1px] bg-[#ededed]"></span>
-                            <span className="mx-[10px] font-medium leading-[1.5] text-[16px] bg-gradient-to-b from-gray-500 to-[#ebebeb] bg-clip-text text-transparent">или</span>
-                            <span className="w-full h-[1px] bg-[#ededed]"></span>
+                            <span className="w-full h-[2px] bg-[#ededed]"></span>
+                            <span className="mx-[10px] font-medium leading-[1.5] text-[16px] text-[#ebebeb] bg-gradient-to-b from-gray-400 to-[#ebebeb] bg-clip-text text-transparent">или</span>
+                            <span className="w-full h-[2px] bg-[#ededed]"></span>
                         </div>
                     </form>
                     <div className="text-center text-[18px] leading-[1.5]">

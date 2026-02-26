@@ -8,3 +8,5 @@ export { Pagination } from "./Pagination";
 export { Select } from "./Select";
 export { SvgIcon } from "./svgIcon";
 export type { SvgIconProps } from "./svgIcon";
+export { Checkbox } from "./checkbox";
+export type { CheckboxProps } from "./checkbox";
