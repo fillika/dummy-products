@@ -1,7 +1,10 @@
 export { Button } from "./Button";
-export { Input } from "./Input";
+export { BaseInput, LoginInput, PasswordInput } from "./Input";
+export type { BaseInputProps, LoginInputProps, PasswordInputProps } from "./Input";
 export { Modal } from "./Modal";
 export { Loader, Spinner } from "./Loader";
 export { Table } from "./Table";
 export { Pagination } from "./Pagination";
 export { Select } from "./Select";
+export { SvgIcon } from "./svgIcon";
+export type { SvgIconProps } from "./svgIcon";

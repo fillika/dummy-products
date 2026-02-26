@@ -3,8 +3,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../features/auth/api";
-import { Button, Input } from "../../shared/ui";
+import { Button, LoginInput, PasswordInput } from "../../shared/ui";
 import { toast } from "sonner";
+import { Logo } from "./Logo";
 
 const loginSchema = z.object({
     username: z.string().min(1, "Username is required"),
@@ -13,6 +14,7 @@ const loginSchema = z.object({
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
+const inputStyles = "h-[55px] border-[1.5px] border-[#EDEDED] rounded-[12px] text-[18px] text-[#232323] font-medium";
 
 export const LoginPage = () => {
     const navigate = useNavigate();
@@ -20,7 +22,8 @@ export const LoginPage = () => {
     const {
         control,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isValid },
+        watch,
     } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -28,7 +31,12 @@ export const LoginPage = () => {
             password: "",
             rememberMe: false,
         },
+        mode: "onChange",
     });
+
+    const formValues = watch();
+    const isFormFilled = formValues.username?.trim() && formValues.password?.trim();
+    const isSubmitDisabled = !isValid || !isFormFilled || isLoading;
 
     const onSubmit = async (data: LoginFormData) => {
         try {
@@ -41,60 +49,85 @@ export const LoginPage = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-secondary-50">
-            <div className="card w-full max-w-md">
-                <h1 className="text-2xl font-bold text-center text-secondary-900 mb-6">Sign In</h1>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    <Controller
-                        name="username"
-                        control={control}
-                        render={({ field }) => (
-                            <Input label="Username" error={errors.username?.message} {...field} />
-                        )}
-                    />
-                    <Controller
-                        name="password"
-                        control={control}
-                        render={({ field }) => (
-                            <Input
-                                label="Password"
-                                type="password"
-                                error={errors.password?.message}
-                                {...field}
-                            />
-                        )}
-                    />
-                    <div className="flex items-center">
+        <div className="min-h-screen flex items-center justify-center bg-[#f9f9f9]">
+            <div className="rounded-[40px] bg-[#fff] p-[6px]" style={{
+                boxShadow: "0px 24px 32px rgba(0, 0, 0, 0.04)",
+            }}>
+                <div className="w-full max-w-[515px] p-[48px] flex-column items-center justify-center rounded-[34px]" style={{
+                    background: "linear-gradient(181deg, rgba(35, 35, 35, 0.03) 0%, rgba(35, 35, 35, 0) 50%)",
+                }}>
+                    <Logo />
+                    <div className="text-center mb-8">
+                        <div className="text-[#232323] text-[40px] font-semibold leading-[1.1] tracking-[-1.5%] mb-3">
+                            Добро пожаловать!
+                        </div>
+                        <div className="text-[18px] font-medium leading-[1.5] text-center bg-gradient-to-b from-gray-500 to-[#E0E0E0] bg-clip-text text-transparent">
+                            Пожалуйста, авторизуйтесь
+                        </div>
+                    </div>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 px-[10px] mb-8">
                         <Controller
-                            name="rememberMe"
+                            name="username"
                             control={control}
                             render={({ field }) => (
-                                <label className="flex items-center cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        className="w-4 h-4 text-primary-600 border-secondary-300 rounded focus:ring-primary-500"
-                                        checked={field.value}
-                                        onChange={field.onChange}
-                                    />
-                                    <span className="ml-2 text-sm text-secondary-600">
-                                        Remember me
-                                    </span>
-                                </label>
+                                <LoginInput
+                                    error={errors.username?.message}
+                                    {...field}
+                                    className={inputStyles}
+                                />
                             )}
                         />
+                        <Controller
+                            name="password"
+                            control={control}
+                            render={({ field }) => (
+                                <PasswordInput
+                                    error={errors.password?.message}
+                                    {...field}
+                                    className={inputStyles}
+                                />
+                            )}
+                        />
+                        <div className="flex items-center mb-5">
+                            <Controller
+                                name="rememberMe"
+                                control={control}
+                                render={({ field }) => (
+                                    <label className="flex items-center cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            className="w-[18px] h-[18px] border-[2px] border-[#ededed] rounded-[6px] cursor-pointer"
+                                            checked={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                        <span className="ml-[10px] text-[16px] font-medium leading-[1.5] text-[#9C9C9C]">
+                                            Запомнить данные
+                                        </span>
+                                    </label>
+                                )}
+                            />
+                        </div>
+                        <Button
+                            type="submit"
+                            variant="primary"
+                            disabled={isSubmitDisabled}
+                            className="w-full h-[54px] rounded-[12px] !bg-[#242EDB] !border !border-[#367AFF] !shadow-[0px_8px_8px_rgba(54,122,255,0.03),inset_0px_-2px_0px_1px_rgba(0,0,0,0.08)]"
+                            style={{
+                                backgroundImage:
+                                    "linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.12) 100%), #242EDB",
+                            }}
+                        >
+                            <span className="text-[18px] letter-spacing-[0.01em] leading-[1.2]">Войти</span>
+                        </Button>
+                        <div className="flex items-center justify-center">
+                            <span className="w-full h-[1px] bg-[#ededed]"></span>
+                            <span className="mx-[10px] font-medium leading-[1.5] text-[16px] bg-gradient-to-b from-gray-500 to-[#ebebeb] bg-clip-text text-transparent">или</span>
+                            <span className="w-full h-[1px] bg-[#ededed]"></span>
+                        </div>
+                    </form>
+                    <div className="text-center text-[18px] leading-[1.5]">
+                        <span className="text-[#6c6c6c] font-thin">Нет аккаунта?</span> <a className="text-[#242edb] font-bold underline underline-offset-4 decoration-2" href="#">Создать</a>
                     </div>
-                    <Button
-                        type="submit"
-                        variant="primary"
-                        className="w-full"
-                        isLoading={isLoading}
-                    >
-                        Sign In
-                    </Button>
-                </form>
-                <div className="mt-4 text-center text-sm text-secondary-500">
-                    <p>Demo credentials:</p>
-                    <p className="font-mono">emilys / emilyspass</p>
                 </div>
             </div>
         </div>
