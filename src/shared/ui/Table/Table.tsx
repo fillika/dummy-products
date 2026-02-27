@@ -26,7 +26,7 @@ export function Table<T>({
     columns,
     data,
     isLoading = false,
-    emptyMessage = "No data available",
+    emptyMessage = "Нет данных",
     className,
     onRowClick,
     selectedIds = [],

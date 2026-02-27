@@ -10,12 +10,12 @@ export const DEFAULT_PAGINATION = {
 };
 
 export const SORT_OPTIONS = [
-    { value: "price-asc", label: "Price: Low to High" },
-    { value: "price-desc", label: "Price: High to Low" },
-    { value: "rating-asc", label: "Rating: Low to High" },
-    { value: "rating-desc", label: "Rating: High to Low" },
-    { value: "title-asc", label: "Title: A to Z" },
-    { value: "title-desc", label: "Title: Z to A" },
+    { value: "price-asc", label: "Цена: по возрастанию" },
+    { value: "price-desc", label: "Цена: по убыванию" },
+    { value: "rating-asc", label: "Рейтинг: по возрастанию" },
+    { value: "rating-desc", label: "Рейтинг: по убыванию" },
+    { value: "title-asc", label: "Название: А-Я" },
+    { value: "title-desc", label: "Название: Я-А" },
 ];
 
 export const LOW_RATING_THRESHOLD = 3;

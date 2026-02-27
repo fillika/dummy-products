@@ -62,7 +62,7 @@ export const Modal: FC<ModalProps> = ({
                         <button
                             onClick={onClose}
                             className="text-secondary-400 hover:text-secondary-600 transition-colors"
-                            aria-label="Close modal"
+                            aria-label="Закрыть модальное окно"
                         >
                             <svg
                                 className="w-6 h-6"
@@ -82,7 +82,7 @@ export const Modal: FC<ModalProps> = ({
                 )}
                 <div className="mb-4">{children}</div>
                 {footer !== undefined && (
-                    <div className="flex justify-end gap-2 pt-4 border-t">{footer}</div>
+                    <div className="flex justify-end gap-2 pt-4">{footer}</div>
                 )}
             </div>
         </div>

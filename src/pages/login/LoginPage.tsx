@@ -10,8 +10,8 @@ import { Logo } from "./Logo";
 import styles from "./style.module.css";
 
 const loginSchema = z.object({
-    username: z.string().min(1, "Username is required"),
-    password: z.string().min(1, "Password is required"),
+    username: z.string().min(1, "Имя пользователя обязательно"),
+    password: z.string().min(1, "Пароль обязателен"),
     rememberMe: z.boolean().optional(),
 });
 
@@ -46,10 +46,10 @@ export const LoginPage: FC = () => {
     const onSubmit = async (data: LoginFormData): Promise<void> => {
         try {
             await login({ ...data, rememberMe: data.rememberMe ?? false }).unwrap();
-            void toast.success("Login successful!");
+            void toast.success("Вход выполнен успешно!");
             void navigate("/products");
         } catch {
-            void toast.error("Invalid username or password");
+            void toast.error("Неверное имя пользователя или пароль");
         }
     };
 

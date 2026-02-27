@@ -21,7 +21,7 @@ export const Loader: FC<LoaderProps> = ({ size = "md", className }) => {
                     sizeStyles[size]
                 )}
                 role="status"
-                aria-label="Loading"
+                aria-label="Загрузка"
             />
         </div>
     );

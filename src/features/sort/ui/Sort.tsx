@@ -10,7 +10,7 @@ interface SortProps {
 export const Sort: FC<SortProps> = ({ value, onChange }) => {
     return (
         <Select
-            label="Sort by"
+            label="Сортировка"
             value={value}
             onChange={(e) => onChange(e.target.value)}
             options={SORT_OPTIONS}

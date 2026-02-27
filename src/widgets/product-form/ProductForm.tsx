@@ -6,14 +6,14 @@ import { Button, Input, Modal } from "../../shared/ui";
 import { toast } from "sonner";
 
 const productSchema = z.object({
-    name: z.string().min(1, "Name is required").min(2, "Name must be at least 2 characters"),
-    price: z.number().positive("Price must be positive"),
-    vendor: z.string().min(1, "Vendor is required").min(2, "Vendor must be at least 2 characters"),
+    name: z.string().min(1, "Наименование обязательно").min(2, "Наименование должно быть не менее 2 символов"),
+    price: z.number().positive("Цена должна быть положительной"),
+    vendor: z.string().min(1, "Вендор обязателен").min(2, "Вендор должен быть не менее 2 символов"),
     sku: z
         .string()
-        .min(1, "SKU is required")
-        .regex(/^[A-Z0-9-]+$/i, "SKU must contain only letters, numbers, and hyphens")
-        .min(3, "SKU must be at least 3 characters"),
+        .min(1, "Артикул обязателен")
+        .regex(/^[A-Z0-9-]+$/i, "Артикул должен содержать только латинские буквы, цифры и дефисы")
+        .min(3, "Артикул должен быть не менее 3 символов"),
 });
 
 type ProductFormData = z.infer<typeof productSchema>;
@@ -41,8 +41,9 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
 
     const onSubmit = async (data: ProductFormData): Promise<void> => {
         // Simulate API call - no actual save as per requirements
+        // todo: implement
         await new Promise((resolve) => setTimeout(resolve, 500));
-        toast.success(`Product "${data.name}" added successfully!`);
+        toast.success(`Товар "${data.name}" успешно добавлен!`);
         reset();
         onClose();
     };
@@ -56,19 +57,19 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
         <Modal
             isOpen={isOpen}
             onClose={handleClose}
-            title="Add New Product"
+            title="Добавить новый товар"
             size="md"
             footer={
                 <>
                     <Button variant="secondary" onClick={handleClose}>
-                        Cancel
+                        Отмена
                     </Button>
                     <Button
                         variant="primary"
                         onClick={handleSubmit(onSubmit)}
                         disabled={isSubmitting}
                     >
-                        Add Product
+                        Добавить товар
                     </Button>
                 </>
             }
@@ -78,7 +79,7 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
                     name="name"
                     control={control}
                     render={({ field }) => (
-                        <Input label="Product Name" error={errors.name?.message} {...field} />
+                        <Input label="Наименование" error={errors.name?.message} {...field} />
                     )}
                 />
                 <Controller
@@ -86,7 +87,7 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
                     control={control}
                     render={({ field }) => (
                         <Input
-                            label="Price"
+                            label="Цена"
                             type="number"
                             step="0.01"
                             error={errors.price?.message}
@@ -100,14 +101,14 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
                     name="vendor"
                     control={control}
                     render={({ field }) => (
-                        <Input label="Vendor" error={errors.vendor?.message} {...field} />
+                        <Input label="Вендор" error={errors.vendor?.message} {...field} />
                     )}
                 />
                 <Controller
                     name="sku"
                     control={control}
                     render={({ field }) => (
-                        <Input label="SKU" error={errors.sku?.message} {...field} />
+                        <Input label="Артикул" error={errors.sku?.message} {...field} />
                     )}
                 />
             </form>

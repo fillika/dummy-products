@@ -7,7 +7,7 @@ interface SearchProps {
     placeholder?: string;
 }
 
-export const Search: FC<SearchProps> = ({ onSearch, placeholder = "Search products..." }) => {
+export const Search: FC<SearchProps> = ({ onSearch, placeholder = "Поиск товаров..." }) => {
     const [value, setValue] = useState("");
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
