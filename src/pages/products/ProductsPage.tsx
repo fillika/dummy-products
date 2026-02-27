@@ -6,11 +6,13 @@ import { AddProduct } from "../../features/add-product/ui";
 import { useGetProductsQuery } from "../../entities/product";
 import type { SortParams } from "../../shared/types";
 import { RefreshButton } from "../../features/refresh-products/ui/RefreshButton";
+import type { SortValue } from "../../shared/constants";
 
 export const ProductsPage: FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
-    const [sortValue, setSortValue] = useState("price-asc");
+    const [sortValue, setSortValue] = useState<SortValue>("price-asc");
+    const [isRefreshing, setRefreshing] = useState(false);
 
     const itemsPerPage = 5;
 
@@ -37,13 +39,21 @@ export const ProductsPage: FC = () => {
     };
 
     const handleSortChange = (value: string): void => {
-        setSortValue(value);
+        setSortValue(value as SortValue);
         setCurrentPage(1);
     };
 
     const handleSearch = (query: string): void => {
         setSearchQuery(query);
         setCurrentPage(1);
+    };
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        handleSortChange("price-asc");
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 700);
     };
 
     return (
@@ -54,7 +64,7 @@ export const ProductsPage: FC = () => {
                     <div className="flex justify-between gap-4 items-center mb-10">
                         <span className="font-bold text-[20px] text-[#202020] leading-[1] font-cairo">Все позиции</span>
                         <div className="flex gap-2">
-                            <RefreshButton />
+                            <RefreshButton handleRefresh={handleRefresh} disabled={isRefreshing} />
                             <AddProduct />
                         </div>
                     </div>
@@ -62,7 +72,7 @@ export const ProductsPage: FC = () => {
                     <div className="flex-1 overflow-auto mb-10">
                         <ProductList
                             products={data?.products || []}
-                            isLoading={isLoading}
+                            isLoading={isLoading || isRefreshing}
                             sortValue={sortValue}
                             onSortChange={handleSortChange}
                         />

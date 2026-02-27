@@ -16,6 +16,8 @@ export const SORT_OPTIONS = [
     { value: "rating-desc", label: "Рейтинг: по убыванию" },
     { value: "title-asc", label: "Название: А-Я" },
     { value: "title-desc", label: "Название: Я-А" },
-];
+] as const;
+
+export type SortValue = typeof SORT_OPTIONS[number]["value"];
 
 export const LOW_RATING_THRESHOLD = 3;

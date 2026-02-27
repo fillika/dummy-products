@@ -6,12 +6,13 @@ import type { Product } from "../../shared/types";
 import { TableCheckbox } from "../../shared/ui/checkbox";
 import { PlusIcon, SvgIcon, ThreeDotsIcon } from "../../shared/ui/icons";
 import { Button } from "../../shared/ui";
+import type { SortValue } from "../../shared/constants";
 
 interface ProductListProps {
     products: Product[];
     isLoading?: boolean;
-    sortValue?: string;
-    onSortChange?: (value: string) => void;
+    sortValue?: SortValue;
+    onSortChange?: (value: SortValue) => void;
 }
 
 export const ProductList: FC<ProductListProps> = ({
@@ -33,9 +34,9 @@ export const ProductList: FC<ProductListProps> = ({
         if (!onSortChange) return;
         const [currentField, currentOrder] = sortValue.split("-");
         if (currentField === field) {
-            onSortChange(currentOrder === "asc" ? `${field}-desc` : `${field}-asc`);
+            onSortChange(`${field}-${currentOrder === "asc" ? "desc" : "asc"}` as SortValue);
         } else {
-            onSortChange(`${field}-asc`);
+            onSortChange(`${field}-asc` as SortValue);
         }
     };
 
