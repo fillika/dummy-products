@@ -8,9 +8,33 @@ import type { Product } from "../../shared/types";
 interface ProductListProps {
     products: Product[];
     isLoading?: boolean;
+    sortValue?: string;
+    onSortChange?: (value: string) => void;
 }
 
-export const ProductList: FC<ProductListProps> = ({ products, isLoading }) => {
+export const ProductList: FC<ProductListProps> = ({
+    products,
+    isLoading,
+    sortValue = "price-asc",
+    onSortChange,
+}) => {
+    const getSortIcon = (field: string): string => {
+        if (!onSortChange) return "";
+        const [currentField, currentOrder] = sortValue.split("-");
+        if (currentField !== field) return "↕";
+        return currentOrder === "asc" ? "↑" : "↓";
+    };
+
+    const handleSortClick = (field: string): void => {
+        if (!onSortChange) return;
+        const [currentField, currentOrder] = sortValue.split("-");
+        if (currentField === field) {
+            onSortChange(currentOrder === "asc" ? `${field}-desc` : `${field}-asc`);
+        } else {
+            onSortChange(`${field}-asc`);
+        }
+    };
+
     const columns: Column<Product>[] = [
         {
             key: "thumbnail",
@@ -34,12 +58,32 @@ export const ProductList: FC<ProductListProps> = ({ products, isLoading }) => {
         },
         {
             key: "price",
-            title: "Price",
+            title: onSortChange ? (
+                <button
+                    type="button"
+                    onClick={() => handleSortClick("price")}
+                    className="flex items-center gap-1 hover:text-primary-500 transition-colors"
+                >
+                    Price <span className="text-xs">{getSortIcon("price")}</span>
+                </button>
+            ) : (
+                "Price"
+            ),
             render: (value) => <span className="font-medium">{formatPrice(value as number)}</span>,
         },
         {
             key: "rating",
-            title: "Rating",
+            title: onSortChange ? (
+                <button
+                    type="button"
+                    onClick={() => handleSortClick("rating")}
+                    className="flex items-center gap-1 hover:text-primary-500 transition-colors"
+                >
+                    Rating <span className="text-xs">{getSortIcon("rating")}</span>
+                </button>
+            ) : (
+                "Rating"
+            ),
             render: (value) => (
                 <span
                     className={cn(

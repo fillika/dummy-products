@@ -2,8 +2,6 @@ import { type FC, useState, useMemo } from "react";
 import { Header } from "../../widgets/header";
 import { ProductList } from "../../widgets/product-list";
 import { Pagination } from "../../widgets/pagination";
-import { Search } from "../../features/search/ui";
-import { Sort } from "../../features/sort/ui";
 import { AddProduct } from "../../features/add-product/ui";
 import { useGetProductsQuery } from "../../entities/product";
 import { DEFAULT_PAGINATION } from "../../shared/constants";
@@ -42,31 +40,33 @@ export const ProductsPage: FC = () => {
         setCurrentPage(1);
     };
 
-    const handleSearch = (query: string): void => {
-        setSearchQuery(query);
-        setCurrentPage(1);
-    };
-
     const handleSortChange = (value: string): void => {
         setSortValue(value);
         setCurrentPage(1);
     };
 
+    const handleSearch = (query: string): void => {
+        setSearchQuery(query);
+        setCurrentPage(1);
+    };
+
     return (
-        <div className="min-h-screen bg-secondary-50">
-            <Header />
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                    <div className="flex flex-col sm:flex-row gap-4 flex-1">
-                        <Search onSearch={handleSearch} />
-                        <div className="w-full sm:w-auto">
-                            <Sort value={sortValue} onChange={handleSortChange} />
-                        </div>
-                    </div>
+        <div className="min-h-screen bg-[#f5f5f5]">
+            <Header onSearch={handleSearch} />
+            <main className="w-full bg-[#fff]">
+                <div className="px-2 lg:px-[30px]">
+
+                </div>
+                <div className="flex flex-col sm:flex-row justify-end items-start sm:items-center gap-4 mb-6">
                     <AddProduct />
                 </div>
 
-                <ProductList products={data?.products || []} isLoading={isLoading} />
+                <ProductList
+                    products={data?.products || []}
+                    isLoading={isLoading}
+                    sortValue={sortValue}
+                    onSortChange={handleSortChange}
+                />
 
                 {data && (
                     <Pagination

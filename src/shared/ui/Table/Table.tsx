@@ -3,7 +3,7 @@ import { cn } from "../../lib";
 
 export interface Column<T> {
     key: keyof T | string;
-    title: string;
+    title: ReactNode;
     render?: (value: T[keyof T], record: T) => ReactNode;
     className?: string;
 }

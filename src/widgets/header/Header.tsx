@@ -1,24 +1,17 @@
 import { type FC } from "react";
-import { useNavigate } from "react-router-dom";
-import { useLogoutMutation } from "../../features/auth/api";
+import { SearchInput } from "../../shared/ui/Input";
 
-export const Header: FC = () => {
-    const navigate = useNavigate();
-    const [logout] = useLogoutMutation();
+interface HeaderProps {
+    onSearch?: (query: string) => void;
+}
 
-    const handleLogout = async (): Promise<void> => {
-        await logout();
-        void navigate("/login");
-    };
-
+export const Header: FC<HeaderProps> = ({ onSearch }) => {
     return (
-        <header className="bg-white shadow-sm border-b">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
-                    <h1 className="text-2xl font-bold text-primary-600">Товары</h1>
-                    <button onClick={handleLogout} className="btn btn-secondary">
-                        Logout
-                    </button>
+        <header className="bg-[#fff] mb-[30px] h-25 px-2 lg:px-[30px]">
+            <div className="w-full h-full">
+                <div className="flex items-center justify-between gap-5 2xl:justify-start 2xl:gap-75 h-full">
+                    <div className="font-bold text-[#202020] text-[24px] leading-[45px]">Товары</div>
+                    {onSearch && <SearchInput onSearch={onSearch} />}
                 </div>
             </div>
         </header>
