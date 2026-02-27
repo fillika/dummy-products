@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import { cn } from "../../lib";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: "primary" | "secondary" | "danger" | "ghost";
+    variant?: "primary" | "secondary" | "danger" | "ghost" | "none";
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -17,12 +17,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                 "bg-secondary-200 text-secondary-800 hover:bg-secondary-100",
             danger: "bg-danger-600 text-white hover:bg-danger-500",
             ghost: "bg-transparent text-secondary-600 hover:bg-secondary-100 border border-[#ececeb]",
+            none: "",
         };
 
         return (
             <button
                 ref={ref}
-                className={cn(baseStyles, variantStyles[variant], className)}
+                className={cn(baseStyles, (variant !== "none" && variantStyles[variant]), className)}
                 disabled={props.disabled === true}
                 {...props}
             >

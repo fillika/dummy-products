@@ -1,5 +1,7 @@
 import { type FC } from "react";
 import { cn } from "../../lib";
+import { ChevronLeftIcon, ChevronRightIcon } from "../icons";
+import { Button } from "../Button";
 
 export interface PaginationProps {
     currentPage: number;
@@ -7,7 +9,6 @@ export interface PaginationProps {
     totalItems: number;
     itemsPerPage: number;
     onPageChange: (page: number) => void;
-    onItemsPerPageChange?: (itemsPerPage: number) => void;
     className?: string;
 }
 
@@ -17,7 +18,6 @@ export const Pagination: FC<PaginationProps> = ({
     totalItems,
     itemsPerPage,
     onPageChange,
-    onItemsPerPageChange,
     className,
 }: PaginationProps) => {
     const startItem = (currentPage - 1) * itemsPerPage + 1;
@@ -43,69 +43,59 @@ export const Pagination: FC<PaginationProps> = ({
     };
 
     return (
-        <div className={cn("flex items-center justify-between", className)}>
-            <div className="text-sm text-secondary-600">
-                Showing {startItem} to {endItem} of {totalItems} results
+        <div className={cn("flex items-center justify-between h-[52px]", className)}>
+            <div className="font-roboto font-normal text-[18px] leading-[21px] text-[#969B9F]">
+                Показано <span className="text-[#000]">{startItem}-{endItem}</span> из <span className="text-[#000]">{totalItems}</span>
             </div>
 
             <div className="flex items-center gap-4">
-                {onItemsPerPageChange && (
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm text-secondary-600">Per page:</span>
-                        <select
-                            value={itemsPerPage}
-                            onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
-                            className="border border-secondary-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
-                        >
-                            <option value={5}>5</option>
-                            <option value={10}>10</option>
-                            <option value={20}>20</option>
-                            <option value={50}>50</option>
-                        </select>
-                    </div>
-                )}
+                <Button
+                    variant="none"
+                    onClick={() => onPageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    <ChevronLeftIcon />
+                </Button>
 
-                <div className="flex items-center gap-1">
-                    <button
-                        onClick={() => onPageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        className="px-3 py-1 border border-secondary-300 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary-100 transition-colors"
-                    >
-                        Previous
-                    </button>
-
+                <div className="flex items-center gap-[16px]">
                     {getPageNumbers().map((page, index) =>
                         page === "..." ? (
                             <span
                                 key={`ellipsis-${index}`}
-                                className="px-3 py-1 text-secondary-500"
+                                className="font-cairo font-normal text-[14px] leading-[26px] text-[#969B9F]"
                             >
                                 ...
                             </span>
                         ) : (
-                            <button
+                            <Button
                                 key={`page-${page}`}
+                                variant="none"
                                 onClick={() => onPageChange(page as number)}
                                 className={cn(
-                                    "px-3 py-1 border rounded text-sm transition-colors",
+                                    "w-[30px] h-[30px] !rounded-[4px] flex justify-center items-center transition-opacity hover:opacity-80",
                                     currentPage === page
-                                        ? "bg-primary-600 text-white border-primary-600"
-                                        : "border-secondary-300 hover:bg-secondary-100"
+                                        ? "bg-[#797FEA] shadow-[0px_20px_50px_rgba(0,0,0,0.12)]"
+                                        : "bg-transparent border border-[#ECECEB] drop-shadow-[0px_20px_50px_rgba(0,0,0,0.12)]"
                                 )}
                             >
-                                {page}
-                            </button>
+                                <span className={cn(
+                                    "font-cairo font-normal text-[14px] leading-[26px]",
+                                    currentPage === page ? "text-[#FFFFFF]" : "text-[#B2B3B9]"
+                                )}>
+                                    {page}
+                                </span>
+                            </Button>
                         )
                     )}
-
-                    <button
-                        onClick={() => onPageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                        className="px-3 py-1 border border-secondary-300 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary-100 transition-colors"
-                    >
-                        Next
-                    </button>
                 </div>
+
+                <Button
+                    variant="none"
+                    onClick={() => onPageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    <ChevronRightIcon />
+                </Button>
             </div>
         </div>
     );

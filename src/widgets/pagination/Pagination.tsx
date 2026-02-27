@@ -5,19 +5,17 @@ interface PaginationWidgetProps {
     currentPage: number;
     totalPages: number;
     totalItems: number;
-    itemsPerPage: number;
     onPageChange: (page: number) => void;
-    onItemsPerPageChange?: (itemsPerPage: number) => void;
 }
 
 export const Pagination: FC<PaginationWidgetProps> = ({
     currentPage,
     totalPages,
     totalItems,
-    itemsPerPage,
     onPageChange,
-    onItemsPerPageChange,
 }: PaginationWidgetProps) => {
+    const itemsPerPage = 5;
+
     return (
         <div className="mt-4">
             <PaginationUI
@@ -26,7 +24,6 @@ export const Pagination: FC<PaginationWidgetProps> = ({
                 totalItems={totalItems}
                 itemsPerPage={itemsPerPage}
                 onPageChange={onPageChange}
-                onItemsPerPageChange={onItemsPerPageChange}
             />
         </div>
     );

@@ -10,3 +10,5 @@ export { RefreshIcon } from "./RefreshIcon";
 export { RoundedPlusIcon } from "./RoundedPlusIcon";
 export { ThreeDotsIcon } from "./ThreeDotsIcon";
 export { PlusIcon } from "./PlusIcon";
+export { ChevronLeftIcon } from "./ChevronLeftIcon";
+export { ChevronRightIcon } from "./ChevronRightIcon";
