@@ -8,3 +8,5 @@ export { SvgIcon } from "../svgIcon";
 export type { SvgIconProps } from "../svgIcon";
 export { RefreshIcon } from "./RefreshIcon";
 export { RoundedPlusIcon } from "./RoundedPlusIcon";
+export { ThreeDotsIcon } from "./ThreeDotsIcon";
+export { PlusIcon } from "./PlusIcon";

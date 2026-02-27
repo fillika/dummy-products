@@ -1,2 +1,4 @@
 export { Checkbox } from "./Checkbox";
 export { type CheckboxProps } from "./Checkbox";
+export { TableCheckbox } from "./TableCheckbox";
+export { type TableCheckboxProps } from "./TableCheckbox";

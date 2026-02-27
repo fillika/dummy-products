@@ -40,7 +40,7 @@ export const SearchInput: FC<SearchInputProps> = ({
                 value={value}
                 onChange={handleChange}
                 placeholder={placeholder}
-                className="w-full h-full bg-transparent text-[18px] text-[#232323] font-medium placeholder:text-[#999] focus:outline-none pl-13 pr-4"
+                className="w-full h-full bg-transparent text-[18px] text-[#232323] font-medium placeholder:font-normal placeholder:text-sm placeholder:leading-[24px] placeholder:text-[#999] placeholder:font-sans focus:outline-none pl-13 pr-4"
             />
         </div>
     );

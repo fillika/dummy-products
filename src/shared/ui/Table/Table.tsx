@@ -1,11 +1,15 @@
 import { type ReactNode } from "react";
 import { cn } from "../../lib";
+import { Loader } from "../Loader";
+import { TableHeader } from "./TableHeader";
+import { TableBody } from "./TableBody";
 
 export interface Column<T> {
     key: keyof T | string;
     title: ReactNode;
     render?: (value: T[keyof T], record: T) => ReactNode;
     className?: string;
+    width?: string;
 }
 
 export interface TableProps<T> {
@@ -15,6 +19,7 @@ export interface TableProps<T> {
     emptyMessage?: string;
     className?: string;
     onRowClick?: (record: T) => void;
+    selectedIds?: (number | string)[];
 }
 
 export function Table<T>({
@@ -24,19 +29,19 @@ export function Table<T>({
     emptyMessage = "No data available",
     className,
     onRowClick,
+    selectedIds = [],
 }: TableProps<T>): React.ReactElement | null {
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center p-8">
-                {/* todo: loader */}
-                <div className="text-secondary-500">Loading...</div>
+            <div className="flex items-center justify-center p-12 h-full min-h-[400px]">
+                <Loader size="lg" />
             </div>
         );
     }
 
     if (data.length === 0) {
         return (
-            <div className="flex items-center justify-center p-8 text-secondary-500">
+            <div className="flex items-center justify-center p-12 h-full min-h-[400px] text-secondary-500">
                 {emptyMessage}
             </div>
         );
@@ -53,47 +58,18 @@ export function Table<T>({
 
     return (
         <div className={cn("overflow-x-auto", className)}>
-            <table className="min-w-full divide-y divide-secondary-200">
-                <thead className="bg-secondary-50">
-                    <tr>
-                        {columns.map((column) => (
-                            <th
-                                key={String(column.key)}
-                                className={cn(
-                                    "px-6 py-3 text-left text-xs font-medium text-secondary-500 uppercase tracking-wider",
-                                    column.className
-                                )}
-                            >
-                                {column.title}
-                            </th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-secondary-200">
-                    {data.map((record, rowIndex) => (
-                        <tr
-                            key={(record as { id?: number | string })?.id ?? rowIndex}
-                            onClick={() => onRowClick?.(record)}
-                            className={cn(
-                                onRowClick !== undefined &&
-                                    "cursor-pointer hover:bg-secondary-50 transition-colors"
-                            )}
-                        >
-                            {columns.map((column) => (
-                                <td
-                                    key={String(column.key)}
-                                    className={cn(
-                                        "px-6 py-4 whitespace-nowrap text-sm text-secondary-900",
-                                        column.className
-                                    )}
-                                >
-                                    {getCellValue(record, column)}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <div className="min-w-[1024px]">
+                <table className="w-full table-fixed">
+                    <TableHeader columns={columns} />
+                    <TableBody
+                        data={data}
+                        columns={columns}
+                        selectedIds={selectedIds}
+                        onRowClick={onRowClick}
+                        getCellValue={getCellValue}
+                    />
+                </table>
+            </div>
         </div>
     );
 }

@@ -19,7 +19,7 @@ export const Pagination: FC<PaginationWidgetProps> = ({
     onItemsPerPageChange,
 }: PaginationWidgetProps) => {
     return (
-        <div className="card mt-4">
+        <div className="mt-4">
             <PaginationUI
                 currentPage={currentPage}
                 totalPages={totalPages}
