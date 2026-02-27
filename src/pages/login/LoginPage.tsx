@@ -7,6 +7,7 @@ import { useLoginMutation } from "../../features/auth/api";
 import { Button, LoginInput, PasswordInput, Checkbox } from "../../shared/ui";
 import { toast } from "sonner";
 import { Logo } from "./Logo";
+import styles from "./style.module.css";
 
 const loginSchema = z.object({
     username: z.string().min(1, "Username is required"),
@@ -51,6 +52,8 @@ export const LoginPage: FC = () => {
         }
     };
 
+    console.debug(styles)
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#f9f9f9]">
             <div
@@ -60,7 +63,7 @@ export const LoginPage: FC = () => {
                 }}
             >
                 <div
-                    className="w-full p-[48px] flex-column items-center justify-center rounded-[34px]"
+                    className={"w-full p-[48px] flex-column items-center justify-center rounded-[34px] " + styles.containerBorder}
                     style={{
                         background:
                             "linear-gradient(181deg, rgba(35, 35, 35, 0.03) 0%, rgba(35, 35, 35, 0) 50%)",

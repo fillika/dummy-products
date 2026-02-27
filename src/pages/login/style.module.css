@@ -1,0 +1,24 @@
+.containerBorder {
+    position: relative;
+}
+
+.containerBorder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid #ededed;
+    border-radius: 34px;
+    mask-image: linear-gradient(to bottom,
+            black 0%,
+            black 30%,
+            rgba(0, 0, 0, 0.5) 62%,
+            transparent 85%,
+            transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom,
+            black 0%,
+            black 30%,
+            rgba(0, 0, 0, 0.5) 62%,
+            transparent 85%,
+            transparent 100%);
+    pointer-events: none;
+}
