@@ -1,4 +1,5 @@
 import { type FC, type ReactNode, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "../../lib";
 
 export interface ModalProps {
@@ -8,6 +9,7 @@ export interface ModalProps {
     children: ReactNode;
     footer?: ReactNode;
     size?: "sm" | "md" | "lg" | "xl";
+    closeIcon?: ReactNode;
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -17,6 +19,7 @@ export const Modal: FC<ModalProps> = ({
     children,
     footer,
     size = "md",
+    closeIcon,
 }) => {
     useEffect(() => {
         const handleEscape = (e: KeyboardEvent): void => {
@@ -45,7 +48,7 @@ export const Modal: FC<ModalProps> = ({
         xl: "max-w-xl",
     };
 
-    return (
+    const modalContent = (
         <div className="modal-overlay" onClick={onClose}>
             <div
                 className={cn("modal-content", sizeStyles[size])}
@@ -59,25 +62,27 @@ export const Modal: FC<ModalProps> = ({
                         <h2 id="modal-title" className="text-xl font-semibold text-secondary-900">
                             {title}
                         </h2>
-                        <button
-                            onClick={onClose}
-                            className="text-secondary-400 hover:text-secondary-600 transition-colors"
-                            aria-label="Закрыть модальное окно"
-                        >
-                            <svg
-                                className="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                        {closeIcon ?? (
+                            <button
+                                onClick={onClose}
+                                className="text-secondary-400 hover:text-secondary-600 transition-colors"
+                                aria-label="Закрыть модальное окно"
                             >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
-                        </button>
+                                <svg
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
+                            </button>
+                        )}
                     </div>
                 )}
                 <div className="mb-4">{children}</div>
@@ -87,4 +92,7 @@ export const Modal: FC<ModalProps> = ({
             </div>
         </div>
     );
+
+    const modalRoot = document.getElementById("modal-root");
+    return createPortal(modalContent, modalRoot ?? document.body);
 };

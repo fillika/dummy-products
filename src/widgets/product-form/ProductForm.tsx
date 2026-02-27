@@ -2,7 +2,8 @@ import { type FC } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button, Input, Modal } from "../../shared/ui";
+import { Button, Input, Modal, SvgIcon } from "../../shared/ui";
+import { CloseIcon } from "../../shared/ui/icons";
 import { toast } from "sonner";
 
 const productSchema = z.object({
@@ -22,6 +23,9 @@ interface ProductFormProps {
     isOpen: boolean;
     onClose: () => void;
 }
+
+const inputStyles =
+    "h-[55px] border-[1.5px] border-[#EDEDED] rounded-[12px] text-[18px] text-[#232323] font-medium";
 
 export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
     const {
@@ -59,17 +63,31 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
             onClose={handleClose}
             title="Добавить новый товар"
             size="md"
+            closeIcon={
+                <button
+                    onClick={handleClose}
+                    className="text-secondary-400 hover:text-secondary-600 transition-colors flex items-center justify-center cursor-pointer"
+                    aria-label="Закрыть"
+                >
+                    <SvgIcon size={24}>
+                        <CloseIcon />
+                    </SvgIcon>
+                </button>
+            }
             footer={
                 <>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleClose} className="h-[48px] px-[18px]">
                         Отмена
                     </Button>
                     <Button
                         variant="primary"
                         onClick={handleSubmit(onSubmit)}
                         disabled={isSubmitting}
+                        className="h-[48px] px-[18px]"
                     >
-                        Добавить товар
+                        <span className="text-[18px] leading-[1.2]">
+                            Добавить товар
+                        </span>
                     </Button>
                 </>
             }
@@ -79,7 +97,7 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
                     name="name"
                     control={control}
                     render={({ field }) => (
-                        <Input label="Наименование" error={errors.name?.message} {...field} />
+                        <Input label="Наименование" error={errors.name?.message} {...field} className={inputStyles} />
                     )}
                 />
                 <Controller
@@ -94,6 +112,7 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
                             {...field}
                             onChange={(e) => field.onChange(parseFloat(e.target.value))}
                             value={field.value ?? ""}
+                            className={inputStyles}
                         />
                     )}
                 />
@@ -101,14 +120,14 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
                     name="vendor"
                     control={control}
                     render={({ field }) => (
-                        <Input label="Вендор" error={errors.vendor?.message} {...field} />
+                        <Input label="Вендор" error={errors.vendor?.message} {...field} className={inputStyles} />
                     )}
                 />
                 <Controller
                     name="sku"
                     control={control}
                     render={({ field }) => (
-                        <Input label="Артикул" error={errors.sku?.message} {...field} />
+                        <Input label="Артикул" error={errors.sku?.message} {...field} className={inputStyles} />
                     )}
                 />
             </form>
