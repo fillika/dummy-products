@@ -31,7 +31,7 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
     const {
         control,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors, isValid },
         reset,
     } = useForm<ProductFormData>({
         resolver: zodResolver(productSchema),
@@ -41,12 +41,10 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
             vendor: "",
             sku: "",
         },
+        mode: "onChange",
     });
 
     const onSubmit = async (data: ProductFormData): Promise<void> => {
-        // Simulate API call - no actual save as per requirements
-        // todo: implement
-        await new Promise((resolve) => setTimeout(resolve, 500));
         toast.success(`Товар "${data.name}" успешно добавлен!`);
         reset();
         onClose();
@@ -82,7 +80,7 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
                     <Button
                         variant="primary"
                         onClick={handleSubmit(onSubmit)}
-                        disabled={isSubmitting}
+                        disabled={!isValid}
                         className="h-[48px] px-[18px]"
                     >
                         <span className="text-[18px] leading-[1.2]">
