@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from "react";
+import { useEffect, useState, type FC, type ReactNode, type ComponentType } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { getToken } from "../../shared/api";
 
@@ -18,16 +18,52 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
     return <>{children}</>;
 };
 
+interface GuestRouteProps {
+    children: ReactNode;
+}
+
+const GuestRoute: FC<GuestRouteProps> = ({ children }) => {
+    if (isAuthenticated()) {
+        return <Navigate to="/products" replace />;
+    }
+    return <>{children}</>;
+};
+
+const LoginPageLazy: FC = () => {
+    const [LoginPage, setPage] = useState<ComponentType | null>(null);
+
+    useEffect(() => {
+        import("../../pages/login").then(({ LoginPage }) => {
+            setPage(() => LoginPage);
+        });
+    }, []);
+
+    if (!LoginPage) return null;
+    return <LoginPage />;
+};
+
+const ProductsPageLazy: FC = () => {
+    const [ProductsPage, setPage] = useState<ComponentType | null>(null);
+
+    useEffect(() => {
+        import("../../pages/products").then(({ ProductsPage }) => {
+            setPage(() => ProductsPage);
+        });
+    }, []);
+
+    if (!ProductsPage) return null;
+    return <ProductsPage />;
+};
+
 const createRouter = (): ReturnType<typeof createBrowserRouter> => {
     return createBrowserRouter([
         {
             path: "/login",
-            lazy: async (): Promise<{
-                Component: () => React.JSX.Element;
-            }> => {
-                const { LoginPage } = await import("../../pages/login");
-                return { Component: (): React.JSX.Element => <LoginPage /> };
-            },
+            element: (
+                <GuestRoute>
+                    <LoginPageLazy />
+                </GuestRoute>
+            ),
         },
         {
             path: "/",
@@ -39,12 +75,15 @@ const createRouter = (): ReturnType<typeof createBrowserRouter> => {
         },
         {
             path: "/products",
-            lazy: async (): Promise<{
-                Component: () => React.JSX.Element;
-            }> => {
-                const { ProductsPage } = await import("../../pages/products");
-                return { Component: (): React.JSX.Element => <ProductsPage /> };
-            },
+            element: (
+                <ProtectedRoute>
+                    <ProductsPageLazy />
+                </ProtectedRoute>
+            ),
+        },
+        {
+            path: "*",
+            element: <Navigate to="/" replace />,
         },
     ]);
 };

@@ -22,6 +22,7 @@ const inputStyles =
 export const LoginPage: FC = () => {
     const navigate = useNavigate();
     const [login, { isLoading }] = useLoginMutation();
+
     const {
         control,
         handleSubmit,
@@ -51,8 +52,6 @@ export const LoginPage: FC = () => {
             void toast.error("Invalid username or password");
         }
     };
-
-    console.debug(styles)
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#f9f9f9]">
