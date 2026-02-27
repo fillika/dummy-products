@@ -6,3 +6,5 @@ export type { EyeIconProps } from "./EyeIcon";
 export { SearchIcon } from "./SearchIcon";
 export { SvgIcon } from "../svgIcon";
 export type { SvgIconProps } from "../svgIcon";
+export { RefreshIcon } from "./RefreshIcon";
+export { RoundedPlusIcon } from "./RoundedPlusIcon";

@@ -118,11 +118,7 @@ export const LoginPage: FC = () => {
                             type="submit"
                             variant="primary"
                             disabled={isSubmitDisabled}
-                            className="w-full h-[54px] rounded-[12px] !bg-[#242EDB] !border !border-[#367AFF] !shadow-[0px_8px_8px_rgba(54,122,255,0.03),inset_0px_-2px_0px_1px_rgba(0,0,0,0.08)]"
-                            style={{
-                                backgroundImage:
-                                    "linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.12) 100%), #242EDB",
-                            }}
+                            className="w-full h-[54px]"
                         >
                             <span className="text-[18px] letter-spacing-[0.01em] leading-[1.2]">
                                 Войти

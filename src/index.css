@@ -46,7 +46,12 @@
     --color-success-900: #14532d;
 
     --font-sans: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+    --font-cairo: "Cairo", system-ui, sans-serif;
     --font-mono: "Fira Code", monospace;
+}
+
+@utility font-cairo {
+    font-family: var(--font-cairo);
 }
 
 :root {

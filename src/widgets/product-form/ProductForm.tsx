@@ -66,7 +66,7 @@ export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
                     <Button
                         variant="primary"
                         onClick={handleSubmit(onSubmit)}
-                        isLoading={isSubmitting}
+                        disabled={isSubmitting}
                     >
                         Add Product
                     </Button>

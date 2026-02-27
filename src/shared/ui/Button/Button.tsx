@@ -1,58 +1,32 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes } from "react";
 import { forwardRef } from "react";
 import { cn } from "../../lib";
-import { Loader } from "../Loader";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: "primary" | "secondary" | "danger" | "ghost";
-    size?: "sm" | "md" | "lg";
-    leftIcon?: ReactNode;
-    rightIcon?: ReactNode;
-    isLoading?: boolean;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-    (
-        {
-            className,
-            variant = "primary",
-            size = "md",
-            leftIcon,
-            rightIcon,
-            children,
-            isLoading,
-            ...props
-        },
-        ref
-    ) => {
+    ({ className, variant = "primary", children, ...props }, ref) => {
         const baseStyles =
-            "inline-flex items-center justify-center font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
+            "inline-flex items-center justify-center font-medium transition-all duration-200 focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed rounded-[8px] p-2.5";
 
         const variantStyles = {
-            primary: "bg-primary-600 text-white hover:bg-primary-500 focus:ring-primary-500",
+            primary: "bg-[#242EDB] text-white hover:bg-[#1e25b8] border border-[#367AFF] shadow-[0px_8px_8px_rgba(54,122,255,0.03),inset_0px_-2px_0px_1px_rgba(0,0,0,0.08)]",
             secondary:
-                "bg-secondary-200 text-secondary-800 hover:bg-secondary-100 focus:ring-secondary-500",
-            danger: "bg-danger-600 text-white hover:bg-danger-500 focus:ring-danger-500",
-            ghost: "bg-transparent text-secondary-600 hover:bg-secondary-100 focus:ring-secondary-500",
-        };
-
-        const sizeStyles = {
-            sm: "px-3 py-1.5 text-sm gap-2",
-            md: "px-4 py-2 text-base gap-2",
-            lg: "px-6 py-3 text-lg gap-2",
+                "bg-secondary-200 text-secondary-800 hover:bg-secondary-100",
+            danger: "bg-danger-600 text-white hover:bg-danger-500",
+            ghost: "bg-transparent text-secondary-600 hover:bg-secondary-100 border border-[#ececeb]",
         };
 
         return (
             <button
                 ref={ref}
-                className={cn(baseStyles, variantStyles[variant], sizeStyles[size], className)}
-                disabled={isLoading === true || props.disabled === true}
+                className={cn(baseStyles, variantStyles[variant], className)}
+                disabled={props.disabled === true}
                 {...props}
             >
-                {isLoading === true && <Loader className="mr-2" />}
-                {leftIcon}
                 {children}
-                {rightIcon}
             </button>
         );
     }
