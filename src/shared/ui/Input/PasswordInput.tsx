@@ -13,7 +13,7 @@ export interface PasswordInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
 
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     ({ className, label = "Пароль", error, helperText, id, ...props }, ref) => {
-        const inputId = id || label?.toLowerCase().replace(/\s+/g, "-");
+        const inputId = id ?? label?.toLowerCase().replace(/\s+/g, "-") ?? "";
         const [showPassword, setShowPassword] = useState(false);
 
         return (
@@ -28,7 +28,12 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                         ref={ref}
                         id={inputId}
                         type={showPassword ? "text" : "password"}
-                        className={cn("input", error && "input-error", "pl-[54px] pr-[54px]", className)}
+                        className={cn(
+                            "input",
+                            error !== undefined && "input-error",
+                            "pl-[54px] pr-[54px]",
+                            className
+                        )}
                         {...props}
                     />
                     <button

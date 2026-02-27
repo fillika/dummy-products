@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -14,9 +15,10 @@ const loginSchema = z.object({
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
-const inputStyles = "h-[55px] border-[1.5px] border-[#EDEDED] rounded-[12px] text-[18px] text-[#232323] font-medium";
+const inputStyles =
+    "h-[55px] border-[1.5px] border-[#EDEDED] rounded-[12px] text-[18px] text-[#232323] font-medium";
 
-export const LoginPage = () => {
+export const LoginPage: FC = () => {
     const navigate = useNavigate();
     const [login, { isLoading }] = useLoginMutation();
     const {
@@ -34,28 +36,36 @@ export const LoginPage = () => {
         mode: "onChange",
     });
 
+    // eslint-disable-next-line react-hooks/incompatible-library
     const formValues = watch();
     const isFormFilled = formValues.username?.trim() && formValues.password?.trim();
     const isSubmitDisabled = !isValid || !isFormFilled || isLoading;
 
-    const onSubmit = async (data: LoginFormData) => {
+    const onSubmit = async (data: LoginFormData): Promise<void> => {
         try {
             await login({ ...data, rememberMe: data.rememberMe ?? false }).unwrap();
-            toast.success("Login successful!");
-            navigate("/products");
-        } catch (error) {
-            toast.error("Invalid username or password");
+            void toast.success("Login successful!");
+            void navigate("/products");
+        } catch {
+            void toast.error("Invalid username or password");
         }
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#f9f9f9]">
-            <div className="rounded-[40px] bg-[#fff] p-[6px] w-full max-w-[527px]" style={{
-                boxShadow: "0px 24px 32px rgba(0, 0, 0, 0.04)",
-            }}>
-                <div className="w-full p-[48px] flex-column items-center justify-center rounded-[34px]" style={{
-                    background: "linear-gradient(181deg, rgba(35, 35, 35, 0.03) 0%, rgba(35, 35, 35, 0) 50%)",
-                }}>
+            <div
+                className="rounded-[40px] bg-[#fff] p-[6px] w-full max-w-[527px]"
+                style={{
+                    boxShadow: "0px 24px 32px rgba(0, 0, 0, 0.04)",
+                }}
+            >
+                <div
+                    className="w-full p-[48px] flex-column items-center justify-center rounded-[34px]"
+                    style={{
+                        background:
+                            "linear-gradient(181deg, rgba(35, 35, 35, 0.03) 0%, rgba(35, 35, 35, 0) 50%)",
+                    }}
+                >
                     <Logo />
                     <div className="text-center mb-8">
                         <div className="text-[#232323] text-[40px] font-semibold leading-[1.1] tracking-[-1.5%] mb-3">
@@ -94,7 +104,7 @@ export const LoginPage = () => {
                                 control={control}
                                 render={({ field }) => (
                                     <Checkbox
-                                        checked={!!field.value}
+                                        checked={field.value === true}
                                         onChange={field.onChange}
                                         label="Запомнить данные"
                                     />
@@ -111,16 +121,26 @@ export const LoginPage = () => {
                                     "linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.12) 100%), #242EDB",
                             }}
                         >
-                            <span className="text-[18px] letter-spacing-[0.01em] leading-[1.2]">Войти</span>
+                            <span className="text-[18px] letter-spacing-[0.01em] leading-[1.2]">
+                                Войти
+                            </span>
                         </Button>
                         <div className="flex items-center justify-center">
                             <span className="w-full h-[2px] bg-[#ededed]"></span>
-                            <span className="mx-[10px] font-medium leading-[1.5] text-[16px] text-[#ebebeb] bg-gradient-to-b from-gray-400 to-[#ebebeb] bg-clip-text text-transparent">или</span>
+                            <span className="mx-[10px] font-medium leading-[1.5] text-[16px] text-[#ebebeb] bg-gradient-to-b from-gray-400 to-[#ebebeb] bg-clip-text text-transparent">
+                                или
+                            </span>
                             <span className="w-full h-[2px] bg-[#ededed]"></span>
                         </div>
                     </form>
                     <div className="text-center text-[18px] leading-[1.5]">
-                        <span className="text-[#6c6c6c] font-thin">Нет аккаунта?</span> <a className="text-[#242edb] font-bold underline underline-offset-4 decoration-2" href="#">Создать</a>
+                        <span className="text-[#6c6c6c] font-thin">Нет аккаунта?</span>{" "}
+                        <a
+                            className="text-[#242edb] font-bold underline underline-offset-4 decoration-2"
+                            href="#"
+                        >
+                            Создать
+                        </a>
                     </div>
                 </div>
             </div>

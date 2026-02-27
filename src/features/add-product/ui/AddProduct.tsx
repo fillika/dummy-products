@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { type FC, useState } from "react";
 import { Button } from "../../../shared/ui/Button";
 import { ProductForm } from "../../../widgets/product-form";
 
-export const AddProduct = () => {
+export const AddProduct: FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (

@@ -59,7 +59,7 @@ src/
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
@@ -100,6 +100,7 @@ npm run lint
 ## API
 
 This project uses the [DummyJSON API](https://dummyjson.com/) for:
+
 - Authentication (`/auth/login`, `/auth/me`)
 - Products (`/products`, `/products/search`)
 
@@ -112,12 +113,14 @@ No environment variables required. The API base URL is configured in `src/shared
 ### Tailwind Config
 
 Custom theme configured in `tailwind.config.js`:
+
 - Colors: primary, secondary, danger, success
 - Fonts: Inter (sans), Fira Code (mono)
 
 ### ESLint + Prettier
 
 Strict TypeScript rules enabled:
+
 - No `any` type
 - No `console.log` in production
 - Explicit function return types

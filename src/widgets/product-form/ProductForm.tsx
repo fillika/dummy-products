@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -22,7 +23,7 @@ interface ProductFormProps {
     onClose: () => void;
 }
 
-export const ProductForm = ({ isOpen, onClose }: ProductFormProps) => {
+export const ProductForm: FC<ProductFormProps> = ({ isOpen, onClose }) => {
     const {
         control,
         handleSubmit,
@@ -38,7 +39,7 @@ export const ProductForm = ({ isOpen, onClose }: ProductFormProps) => {
         },
     });
 
-    const onSubmit = async (data: ProductFormData) => {
+    const onSubmit = async (data: ProductFormData): Promise<void> => {
         // Simulate API call - no actual save as per requirements
         await new Promise((resolve) => setTimeout(resolve, 500));
         toast.success(`Product "${data.name}" added successfully!`);
@@ -46,7 +47,7 @@ export const ProductForm = ({ isOpen, onClose }: ProductFormProps) => {
         onClose();
     };
 
-    const handleClose = () => {
+    const handleClose = (): void => {
         reset();
         onClose();
     };

@@ -4,8 +4,10 @@ import { API_BASE_URL, TOKEN_KEY, REFRESH_TOKEN_KEY, TOKEN_EXPIRY_KEY } from "..
 export const baseQuery = fetchBaseQuery({
     baseUrl: API_BASE_URL,
     prepareHeaders: (headers) => {
-        const token = localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
-        if (token) {
+        const localToken = localStorage.getItem(TOKEN_KEY);
+        const sessionToken = sessionStorage.getItem(TOKEN_KEY);
+        const token = localToken ?? sessionToken;
+        if (token !== null) {
             headers.set("Authorization", `Bearer ${token}`);
         }
         return headers;
@@ -13,9 +15,10 @@ export const baseQuery = fetchBaseQuery({
 });
 
 export const isTokenExpired = (): boolean => {
-    const expiry =
-        localStorage.getItem(TOKEN_EXPIRY_KEY) || sessionStorage.getItem(TOKEN_EXPIRY_KEY);
-    if (!expiry) return true;
+    const localExpiry = localStorage.getItem(TOKEN_EXPIRY_KEY);
+    const sessionExpiry = sessionStorage.getItem(TOKEN_EXPIRY_KEY);
+    const expiry = localExpiry ?? sessionExpiry;
+    if (expiry === null) return true;
     return Date.now() >= parseInt(expiry, 10);
 };
 
@@ -38,5 +41,7 @@ export const clearToken = (): void => {
 };
 
 export const getToken = (): string | null => {
-    return localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
+    const localToken = localStorage.getItem(TOKEN_KEY);
+    const sessionToken = sessionStorage.getItem(TOKEN_KEY);
+    return localToken ?? sessionToken;
 };

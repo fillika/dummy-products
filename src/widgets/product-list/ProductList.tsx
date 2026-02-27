@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { Table } from "../../shared/ui/Table";
 import type { Column } from "../../shared/ui/Table";
 import { formatPrice, formatRating, cn } from "../../shared/lib";
@@ -9,7 +10,7 @@ interface ProductListProps {
     isLoading?: boolean;
 }
 
-export const ProductList = ({ products, isLoading }: ProductListProps) => {
+export const ProductList: FC<ProductListProps> = ({ products, isLoading }) => {
     const columns: Column<Product>[] = [
         {
             key: "thumbnail",
@@ -43,12 +44,10 @@ export const ProductList = ({ products, isLoading }: ProductListProps) => {
                 <span
                     className={cn(
                         "px-2 py-1 rounded-full text-sm font-medium",
-                        (value as number) < LOW_RATING_THRESHOLD
-                            ? "bg-danger-100 text-danger-800"
-                            : "bg-success-100 text-success-800"
+                        (value as number) < LOW_RATING_THRESHOLD && "bg-danger-100 text-danger-800"
                     )}
                 >
-                    ★ {formatRating(value as number)}
+                    {formatRating(value as number)}/5
                 </span>
             ),
         },

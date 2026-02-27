@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { cn } from "../../lib";
 
 export interface PaginationProps {
@@ -10,7 +11,7 @@ export interface PaginationProps {
     className?: string;
 }
 
-export const Pagination = ({
+export const Pagination: FC<PaginationProps> = ({
     currentPage,
     totalPages,
     totalItems,

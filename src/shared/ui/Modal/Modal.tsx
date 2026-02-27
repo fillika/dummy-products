@@ -1,5 +1,4 @@
-import type { ReactNode } from "react";
-import { useEffect } from "react";
+import { type FC, type ReactNode, useEffect } from "react";
 import { cn } from "../../lib";
 
 export interface ModalProps {
@@ -11,9 +10,16 @@ export interface ModalProps {
     size?: "sm" | "md" | "lg" | "xl";
 }
 
-export const Modal = ({ isOpen, onClose, title, children, footer, size = "md" }: ModalProps) => {
+export const Modal: FC<ModalProps> = ({
+    isOpen,
+    onClose,
+    title,
+    children,
+    footer,
+    size = "md",
+}) => {
     useEffect(() => {
-        const handleEscape = (e: KeyboardEvent) => {
+        const handleEscape = (e: KeyboardEvent): void => {
             if (e.key === "Escape") {
                 onClose();
             }
@@ -24,7 +30,7 @@ export const Modal = ({ isOpen, onClose, title, children, footer, size = "md" }:
             document.body.style.overflow = "hidden";
         }
 
-        return () => {
+        return (): void => {
             document.removeEventListener("keydown", handleEscape);
             document.body.style.overflow = "unset";
         };
@@ -46,9 +52,9 @@ export const Modal = ({ isOpen, onClose, title, children, footer, size = "md" }:
                 onClick={(e) => e.stopPropagation()}
                 role="dialog"
                 aria-modal="true"
-                aria-labelledby={title ? "modal-title" : undefined}
+                aria-labelledby={title !== undefined ? "modal-title" : undefined}
             >
-                {title && (
+                {title !== undefined && (
                     <div className="flex items-center justify-between mb-4">
                         <h2 id="modal-title" className="text-xl font-semibold text-secondary-900">
                             {title}
@@ -75,7 +81,9 @@ export const Modal = ({ isOpen, onClose, title, children, footer, size = "md" }:
                     </div>
                 )}
                 <div className="mb-4">{children}</div>
-                {footer && <div className="flex justify-end gap-2 pt-4 border-t">{footer}</div>}
+                {footer !== undefined && (
+                    <div className="flex justify-end gap-2 pt-4 border-t">{footer}</div>
+                )}
             </div>
         </div>
     );

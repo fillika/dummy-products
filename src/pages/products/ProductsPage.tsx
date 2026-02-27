@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { type FC, useState, useMemo } from "react";
 import { Header } from "../../widgets/header";
 import { ProductList } from "../../widgets/product-list";
 import { Pagination } from "../../widgets/pagination";
@@ -9,7 +9,7 @@ import { useGetProductsQuery } from "../../entities/product";
 import { DEFAULT_PAGINATION } from "../../shared/constants";
 import type { SortParams } from "../../shared/types";
 
-export const ProductsPage = () => {
+export const ProductsPage: FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(DEFAULT_PAGINATION.limit);
     const [searchQuery, setSearchQuery] = useState("");
@@ -33,21 +33,21 @@ export const ProductsPage = () => {
 
     const totalPages = data ? Math.ceil(data.total / itemsPerPage) : 1;
 
-    const handlePageChange = (page: number) => {
+    const handlePageChange = (page: number): void => {
         setCurrentPage(page);
     };
 
-    const handleItemsPerPageChange = (newLimit: number) => {
+    const handleItemsPerPageChange = (newLimit: number): void => {
         setItemsPerPage(newLimit);
         setCurrentPage(1);
     };
 
-    const handleSearch = (query: string) => {
+    const handleSearch = (query: string): void => {
         setSearchQuery(query);
         setCurrentPage(1);
     };
 
-    const handleSortChange = (value: string) => {
+    const handleSortChange = (value: string): void => {
         setSortValue(value);
         setCurrentPage(1);
     };

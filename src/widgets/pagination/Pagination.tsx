@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { Pagination as PaginationUI } from "../../shared/ui/Pagination";
 
 interface PaginationWidgetProps {
@@ -9,7 +10,7 @@ interface PaginationWidgetProps {
     onItemsPerPageChange?: (itemsPerPage: number) => void;
 }
 
-export const Pagination = ({
+export const Pagination: FC<PaginationWidgetProps> = ({
     currentPage,
     totalPages,
     totalItems,

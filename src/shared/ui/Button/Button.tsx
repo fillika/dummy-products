@@ -1,12 +1,14 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { forwardRef } from "react";
 import { cn } from "../../lib";
+import { Loader } from "../Loader";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: "primary" | "secondary" | "danger" | "ghost";
     size?: "sm" | "md" | "lg";
     leftIcon?: ReactNode;
     rightIcon?: ReactNode;
+    isLoading?: boolean;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -18,6 +20,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             leftIcon,
             rightIcon,
             children,
+            isLoading,
             ...props
         },
         ref
@@ -43,8 +46,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <button
                 ref={ref}
                 className={cn(baseStyles, variantStyles[variant], sizeStyles[size], className)}
+                disabled={isLoading === true || props.disabled === true}
                 {...props}
             >
+                {isLoading === true && <Loader className="mr-2" />}
                 {leftIcon}
                 {children}
                 {rightIcon}

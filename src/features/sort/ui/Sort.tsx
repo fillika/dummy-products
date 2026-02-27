@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { Select } from "../../../shared/ui/Select";
 import { SORT_OPTIONS } from "../../../shared/constants";
 
@@ -6,7 +7,7 @@ interface SortProps {
     onChange: (value: string) => void;
 }
 
-export const Sort = ({ value, onChange }: SortProps) => {
+export const Sort: FC<SortProps> = ({ value, onChange }) => {
     return (
         <Select
             label="Sort by"

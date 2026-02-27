@@ -1,13 +1,13 @@
 import { Input } from "../../../shared/ui/Input";
 import { debounce } from "../../../shared/lib";
-import { useCallback, useState } from "react";
+import { type FC, useCallback, useState } from "react";
 
 interface SearchProps {
     onSearch: (query: string) => void;
     placeholder?: string;
 }
 
-export const Search = ({ onSearch, placeholder = "Search products..." }: SearchProps) => {
+export const Search: FC<SearchProps> = ({ onSearch, placeholder = "Search products..." }) => {
     const [value, setValue] = useState("");
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -18,7 +18,7 @@ export const Search = ({ onSearch, placeholder = "Search products..." }: SearchP
         [onSearch]
     );
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const newValue = e.target.value;
         setValue(newValue);
         debouncedSearch(newValue);

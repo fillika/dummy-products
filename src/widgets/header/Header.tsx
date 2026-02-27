@@ -1,13 +1,14 @@
+import { type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../features/auth/api";
 
-export const Header = () => {
+export const Header: FC = () => {
     const navigate = useNavigate();
     const [logout] = useLogoutMutation();
 
-    const handleLogout = async () => {
+    const handleLogout = async (): Promise<void> => {
         await logout();
-        navigate("/login");
+        void navigate("/login");
     };
 
     return (

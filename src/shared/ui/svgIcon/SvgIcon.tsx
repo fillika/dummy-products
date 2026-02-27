@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type FC, type ReactNode } from "react";
 import { cn } from "../../lib";
 
 export interface SvgIconProps {
@@ -10,30 +10,23 @@ export interface SvgIconProps {
     color?: string;
 }
 
-export const SvgIcon = ({
-    children,
-    className,
-    size,
-    width,
-    height,
-    color,
-}: SvgIconProps) => {
+export const SvgIcon: FC<SvgIconProps> = ({ children, className, size, width, height, color }) => {
     const style: React.CSSProperties = {};
 
-    if (size) {
+    if (size !== undefined) {
         const sizeValue = typeof size === "number" ? `${size}px` : size;
         style.width = sizeValue;
         style.height = sizeValue;
     } else {
-        if (width) {
+        if (width !== undefined) {
             style.width = typeof width === "number" ? `${width}px` : width;
         }
-        if (height) {
+        if (height !== undefined) {
             style.height = typeof height === "number" ? `${height}px` : height;
         }
     }
 
-    if (color) {
+    if (color !== undefined) {
         style.color = color;
     }
 

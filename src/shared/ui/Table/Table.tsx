@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { cn } from "../../lib";
 
 export interface Column<T> {
@@ -24,7 +24,7 @@ export function Table<T>({
     emptyMessage = "No data available",
     className,
     onRowClick,
-}: TableProps<T>) {
+}: TableProps<T>): React.ReactElement | null {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center p-8">
@@ -72,10 +72,10 @@ export function Table<T>({
                 <tbody className="bg-white divide-y divide-secondary-200">
                     {data.map((record, rowIndex) => (
                         <tr
-                            key={(record as { id?: number | string })?.id || rowIndex}
+                            key={(record as { id?: number | string })?.id ?? rowIndex}
                             onClick={() => onRowClick?.(record)}
                             className={cn(
-                                onRowClick &&
+                                onRowClick !== undefined &&
                                     "cursor-pointer hover:bg-secondary-50 transition-colors"
                             )}
                         >

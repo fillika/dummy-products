@@ -1,21 +1,27 @@
-import { useEffect } from "react";
+import { type FC, type ReactNode, useEffect } from "react";
 import { useLogoutMutation } from "../../features/auth/api";
 import { isTokenExpired } from "../../shared/api";
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+interface AuthProviderProps {
+    children: ReactNode;
+}
+
+export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const [logout] = useLogoutMutation();
 
     useEffect(() => {
-        const checkTokenExpiry = () => {
+        const checkTokenExpiry = (): void => {
             if (isTokenExpired()) {
-                logout();
+                void logout();
             }
         };
 
         // Check every minute
         const interval = setInterval(checkTokenExpiry, 60000);
 
-        return () => clearInterval(interval);
+        return (): void => {
+            clearInterval(interval);
+        };
     }, [logout]);
 
     return <>{children}</>;

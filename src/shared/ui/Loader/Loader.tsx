@@ -1,3 +1,4 @@
+import { type FC } from "react";
 import { cn } from "../../lib";
 
 export interface LoaderProps {
@@ -5,7 +6,7 @@ export interface LoaderProps {
     className?: string;
 }
 
-export const Loader = ({ size = "md", className }: LoaderProps) => {
+export const Loader: FC<LoaderProps> = ({ size = "md", className }) => {
     const sizeStyles = {
         sm: "w-4 h-4",
         md: "w-8 h-8",

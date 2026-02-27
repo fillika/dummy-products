@@ -16,11 +16,11 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     ({ className, label, error, helperText, options, id, ...props }, ref) => {
-        const selectId = id || label?.toLowerCase().replace(/\s+/g, "-");
+        const selectId = id ?? label?.toLowerCase().replace(/\s+/g, "-") ?? "";
 
         return (
             <div className="w-full">
-                {label && (
+                {label !== undefined && (
                     <label
                         htmlFor={selectId}
                         className="block text-sm font-medium text-secondary-700 mb-1"
@@ -31,7 +31,12 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                 <select
                     ref={ref}
                     id={selectId}
-                    className={cn("input", error && "input-error", "cursor-pointer", className)}
+                    className={cn(
+                        "input",
+                        error !== undefined && "input-error",
+                        "cursor-pointer",
+                        className
+                    )}
                     {...props}
                 >
                     {options.map((option) => (
@@ -40,14 +45,14 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
                         </option>
                     ))}
                 </select>
-                {(error || helperText) && (
+                {(error !== undefined || helperText !== undefined) && (
                     <p
                         className={cn(
                             "mt-1 text-sm",
-                            error ? "text-danger-600" : "text-secondary-500"
+                            error !== undefined ? "text-danger-600" : "text-secondary-500"
                         )}
                     >
-                        {error || helperText}
+                        {error ?? helperText}
                     </p>
                 )}
             </div>

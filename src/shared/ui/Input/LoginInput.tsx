@@ -12,12 +12,15 @@ export interface LoginInputProps extends Omit<InputHTMLAttributes<HTMLInputEleme
 }
 
 export const LoginInput = forwardRef<HTMLInputElement, LoginInputProps>(
-    ({ className, label = "Логин", error, helperText, id, value, onChange, ...props }, ref) => {
-        const inputId = id || label?.toLowerCase().replace(/\s+/g, "-");
+    (
+        { className, label = "Логин", error, helperText, id, value, onChange, ...props },
+        ref
+    ): React.JSX.Element => {
+        const inputId = id ?? label?.toLowerCase().replace(/\s+/g, "-") ?? "";
         const hasValue = value !== "" && value !== undefined && value !== null;
 
-        const handleClear = () => {
-            if (onChange) {
+        const handleClear = (): void => {
+            if (onChange !== undefined) {
                 onChange({ target: { value: "" } } as React.ChangeEvent<HTMLInputElement>);
             }
         };
@@ -36,7 +39,7 @@ export const LoginInput = forwardRef<HTMLInputElement, LoginInputProps>(
                         type="text"
                         className={cn(
                             "input",
-                            error && "input-error",
+                            error !== undefined && "input-error",
                             "pl-[54px]",
                             hasValue && "pr-[54px]",
                             className

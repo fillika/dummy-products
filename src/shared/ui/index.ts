@@ -1,6 +1,6 @@
 export { Button } from "./Button";
-export { BaseInput, LoginInput, PasswordInput } from "./Input";
-export type { BaseInputProps, LoginInputProps, PasswordInputProps } from "./Input";
+export { BaseInput, Input, LoginInput, PasswordInput } from "./Input";
+export type { BaseInputProps, InputProps, LoginInputProps, PasswordInputProps } from "./Input";
 export { Modal } from "./Modal";
 export { Loader, Spinner } from "./Loader";
 export { Table } from "./Table";

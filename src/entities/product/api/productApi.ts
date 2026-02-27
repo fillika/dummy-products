@@ -23,12 +23,12 @@ export const productsApi = createApi({
                     limit: limit.toString(),
                 });
 
-                if (sortBy && order) {
+                if (sortBy !== undefined && order !== undefined) {
                     searchParams.append("sortBy", sortBy);
                     searchParams.append("order", order);
                 }
 
-                if (q) {
+                if (q !== undefined && q !== "") {
                     searchParams.append("q", q);
                 }
 

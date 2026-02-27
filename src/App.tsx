@@ -1,9 +1,10 @@
+import { type FC } from "react";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./app/router";
 import { AuthProvider } from "./app/providers";
 import { Toaster } from "sonner";
 
-function App() {
+const App: FC = () => {
     return (
         <>
             <AuthProvider>
@@ -12,6 +13,6 @@ function App() {
             <Toaster position="top-right" richColors />
         </>
     );
-}
+};
 
 export default App;
