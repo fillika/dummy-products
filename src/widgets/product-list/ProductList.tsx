@@ -69,7 +69,7 @@ export const ProductList: FC<ProductListProps> = ({
                     />
                 </div>
             ),
-            width: "3%",
+            width: "22px",
             className: "text-center",
             render: (_, record) => (
                 <div className="flex items-center justify-center">
@@ -83,7 +83,7 @@ export const ProductList: FC<ProductListProps> = ({
         {
             key: "title",
             title: "Наименование",
-            width: "25%",
+            width: "18.9%",
             className: "text-left",
             render: (_, record) => (
                 <div className="flex items-center gap-[18px]">
@@ -106,7 +106,7 @@ export const ProductList: FC<ProductListProps> = ({
         {
             key: "brand",
             title: "Вендор",
-            width: "13%",
+            width: "20%",
             className: "text-center",
             render: (value) => (
                 <span className="font-cairo font-bold text-[16px] leading-[22px] text-[#000000] text-center block">
@@ -117,7 +117,7 @@ export const ProductList: FC<ProductListProps> = ({
         {
             key: "sku",
             title: "Артикул",
-            width: "13%",
+            width: "9.5%",
             className: "text-center",
             render: () => (
                 <span className="font-cairo font-normal text-[16px] leading-[22px] text-[#000000] text-center block">
@@ -138,7 +138,7 @@ export const ProductList: FC<ProductListProps> = ({
             ) : (
                 "Оценка"
             ),
-            width: "10%",
+            width: "21%",
             className: "text-center",
             render: (value) => {
                 const rating = value as number;
@@ -166,7 +166,7 @@ export const ProductList: FC<ProductListProps> = ({
             ) : (
                 "Цена, ₽"
             ),
-            width: "13%",
+            width: "9%",
             className: "text-center",
             render: (value) => {
                 const price = value as number;
@@ -183,7 +183,7 @@ export const ProductList: FC<ProductListProps> = ({
         {
             key: "actions",
             title: "",
-            width: "23%",
+            width: "20%",
             className: "text-center",
             render: () => (
                 <div className="flex items-center justify-center gap-[32px]">

@@ -60,16 +60,16 @@ export const ProductsPage: FC = () => {
         <div className="min-h-screen bg-[#f5f5f5] flex flex-col">
             <Header onSearch={handleSearch} />
             <main className="w-full bg-[#fff] flex-1 flex flex-col">
-                <div className="px-2 lg:px-[30px] py-7.5 flex-1 flex flex-col">
+                <div className="px-2 lg:px-[30px] py-8 flex-1 flex flex-col">
                     <div className="flex justify-between gap-4 items-center mb-10">
-                        <span className="font-bold text-[20px] text-[#202020] leading-[1] font-cairo">Все позиции</span>
+                        <span className="font-bold text-[22px] text-[#333] leading-[1] font-cairo">Все позиции</span>
                         <div className="flex gap-2">
                             <RefreshButton handleRefresh={handleRefresh} disabled={isRefreshing} />
                             <AddProduct />
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-auto mb-10">
+                    <div className="overflow-auto mb-6 pl-[10px]">
                         <ProductList
                             products={data?.products || []}
                             isLoading={isLoading || isRefreshing}

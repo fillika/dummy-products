@@ -43,21 +43,22 @@ export const Pagination: FC<PaginationProps> = ({
     };
 
     return (
-        <div className={cn("flex items-center justify-between h-[52px]", className)}>
+        <div className={cn("h-[52px] flex flex-col-reverse items-center gap-4 sm:flex-row sm:justify-between", className)}>
             <div className="font-roboto font-normal text-[18px] leading-[21px] text-[#969B9F]">
                 Показано <span className="text-[#000]">{startItem}-{endItem}</span> из <span className="text-[#000]">{totalItems}</span>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 ml-[-6px]">
                 <Button
                     variant="none"
                     onClick={() => onPageChange(currentPage - 1)}
                     disabled={currentPage === 1}
+                    className="!p-2"
                 >
                     <ChevronLeftIcon />
                 </Button>
 
-                <div className="flex items-center gap-[16px]">
+                <div className="flex items-center gap-[8px]">
                     {getPageNumbers().map((page, index) =>
                         page === "..." ? (
                             <span
