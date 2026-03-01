@@ -21,7 +21,7 @@ export const Checkbox: FC<CheckboxProps> = ({ checked, onChange, label, classNam
     };
 
     return (
-        <label className={cn("flex items-center gap-2 cursor-pointer", className)}>
+        <label className={cn("flex items-center gap-3 cursor-pointer", className)}>
             <div
                 className={cn(
                     sizeStyles[size],

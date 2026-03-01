@@ -74,7 +74,7 @@ export const LoginPage: FC = () => {
                             Добро пожаловать!
                         </div>
                         <div className="text-[18px] font-medium leading-[1.5] text-center bg-gradient-to-b from-gray-400 to-[#E0E0E0] bg-clip-text text-transparent">
-                            Пожалуйста, авторизуйтесь
+                            Пожалуйста, авторизируйтесь
                         </div>
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 px-[10px] mb-8">
@@ -100,7 +100,7 @@ export const LoginPage: FC = () => {
                                 />
                             )}
                         />
-                        <div className="flex items-center mb-5">
+                        <div className="flex items-center pt-1 mb-5">
                             <Controller
                                 name="rememberMe"
                                 control={control}
