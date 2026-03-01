@@ -1,4 +1,5 @@
 import { useAppDispatch } from "../../../app/providers";
+import type { SelectionChangeParams } from "../../../widgets/product-list/types";
 import {
     selectAllProducts,
     deselectAllProducts,
@@ -8,32 +9,15 @@ import {
 export const useProductSelection = () => {
     const dispatch = useAppDispatch();
 
-    const handleSelectionChange = (params: {
-        selectAll?: boolean;
-        excludedIds?: number[];
-        selectedIds?: number[];
-    }): void => {
-        const { selectAll, excludedIds, selectedIds } = params;
+    const handleSelectionChange = (params: SelectionChangeParams): void => {
+        const { type, id, checked } = params;
 
-        if (selectAll !== undefined) {
-            dispatch(selectAll ? selectAllProducts() : deselectAllProducts());
-            return;
-        }
-
-        if (excludedIds !== undefined) {
-            const lastExcludedId = excludedIds[excludedIds.length - 1];
-            if (lastExcludedId !== undefined) {
-                dispatch(toggleProductSelection({ id: lastExcludedId, checked: false }));
-            }
-            return;
-        }
-
-        if (selectedIds !== undefined) {
-            const lastSelectedId = selectedIds[selectedIds.length - 1];
-            if (lastSelectedId !== undefined) {
-                dispatch(toggleProductSelection({ id: lastSelectedId, checked: true }));
-            }
-            return;
+        if (type === 'select_all') {
+            dispatch(selectAllProducts());
+        } else if (type === 'deselect_all') {
+            dispatch(deselectAllProducts());
+        } else if (type === 'toggle' && id !== undefined && checked !== undefined) {
+            dispatch(toggleProductSelection({ id, checked }));
         }
     };
 

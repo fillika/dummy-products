@@ -2,6 +2,7 @@ import { type FC, useState } from "react";
 import { Table } from "../../shared/ui/Table";
 import type { Product } from "../../shared/types";
 import type { SortValue } from "../../shared/constants";
+import type { SelectionChangeParams } from "./types";
 import { useProductColumns } from "./useProductColumns";
 
 interface ProductListProps {
@@ -13,7 +14,7 @@ interface ProductListProps {
     selectedIds?: number[];
     selectAll?: boolean;
     excludedIds?: number[];
-    onSelectionChange?: (params: { selectedIds?: number[]; selectAll?: boolean; excludedIds?: number[] }) => void;
+    onSelectionChange?: (params: SelectionChangeParams) => void;
 }
 
 export const ProductList: FC<ProductListProps> = ({
@@ -36,10 +37,31 @@ export const ProductList: FC<ProductListProps> = ({
     const currentExcludedIds = isControlled ? excludedIds : localExcludedIds;
     const setCurrentSelection = isControlled
         ? onSelectionChange
-        : (params: { selectedIds?: number[]; selectAll?: boolean; excludedIds?: number[] }) => {
-            if (params.selectedIds !== undefined) setLocalSelectedIds(params.selectedIds);
-            if (params.selectAll !== undefined) setLocalSelectAll(params.selectAll);
-            if (params.excludedIds !== undefined) setLocalExcludedIds(params.excludedIds);
+        : (params: SelectionChangeParams) => {
+            if (params.type === 'select_all') {
+                setLocalSelectAll(true);
+                setLocalExcludedIds([]);
+                setLocalSelectedIds([]);
+            } else if (params.type === 'deselect_all') {
+                setLocalSelectAll(false);
+                setLocalExcludedIds([]);
+                setLocalSelectedIds([]);
+            } else if (params.type === 'toggle' && params.id !== undefined) {
+                const { id, checked } = params;
+                if (localSelectAll) {
+                    if (!checked) {
+                        setLocalExcludedIds([...localExcludedIds, id]);
+                    } else {
+                        setLocalExcludedIds(localExcludedIds.filter((eid) => eid !== id));
+                    }
+                } else {
+                    if (checked) {
+                        setLocalSelectedIds([...localSelectedIds, id]);
+                    } else {
+                        setLocalSelectedIds(localSelectedIds.filter((sid) => sid !== id));
+                    }
+                }
+            }
         };
 
     const columns = useProductColumns({

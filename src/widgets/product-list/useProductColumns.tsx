@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import type { Column } from "../../shared/ui/Table";
 import type { Product } from "../../shared/types";
 import type { SortValue } from "../../shared/constants";
+import type { SelectionChangeParams } from "./types";
 import { TableCheckbox } from "../../shared/ui/checkbox";
 import { PlusIcon, SvgIcon, ThreeDotsIcon } from "../../shared/ui/icons";
 import { Button } from "../../shared/ui";
@@ -13,11 +14,7 @@ interface UseProductColumnsProps {
     currentSelectAll: boolean;
     currentSelectedIds: number[];
     currentExcludedIds: number[];
-    setCurrentSelection: (params: {
-        selectedIds?: number[];
-        selectAll?: boolean;
-        excludedIds?: number[];
-    }) => void;
+    setCurrentSelection: (params: SelectionChangeParams) => void;
 }
 
 export const useProductColumns = ({
@@ -43,32 +40,19 @@ export const useProductColumns = ({
         } else {
             onSortChange(`${field}-asc` as SortValue);
         }
-        setCurrentSelection({ selectedIds: [], selectAll: false, excludedIds: [] });
+        setCurrentSelection({ type: 'deselect_all' });
     };
 
     const handleSelectAll = (checked: boolean): void => {
         if (checked) {
-            setCurrentSelection({ selectAll: true, excludedIds: [] });
+            setCurrentSelection({ type: 'select_all' });
         } else {
-            setCurrentSelection({ selectAll: false, excludedIds: [], selectedIds: [] });
+            setCurrentSelection({ type: 'deselect_all' });
         }
     };
 
     const handleSelectProduct = (id: number, checked: boolean): void => {
-        if (currentSelectAll) {
-            if (!checked) {
-                setCurrentSelection({ excludedIds: [...currentExcludedIds, id] });
-            } else {
-                setCurrentSelection({ excludedIds: currentExcludedIds.filter((eid) => eid !== id) });
-            }
-            return;
-        }
-
-        if (checked) {
-            setCurrentSelection({ selectedIds: [...currentSelectedIds, id] });
-        } else {
-            setCurrentSelection({ selectedIds: currentSelectedIds.filter((sid) => sid !== id) });
-        }
+        setCurrentSelection({ type: 'toggle', id, checked });
     };
 
     const isItemSelected = (id: number): boolean => {
