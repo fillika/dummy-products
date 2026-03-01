@@ -13,6 +13,11 @@ interface ProductListProps {
     isLoading?: boolean;
     sortValue?: SortValue;
     onSortChange?: (value: SortValue) => void;
+    totalItems?: number;
+    selectedIds?: number[];
+    selectAll?: boolean;
+    excludedIds?: number[];
+    onSelectionChange?: (params: { selectedIds?: number[]; selectAll?: boolean; excludedIds?: number[] }) => void;
 }
 
 export const ProductList: FC<ProductListProps> = ({
@@ -20,8 +25,26 @@ export const ProductList: FC<ProductListProps> = ({
     isLoading,
     sortValue = "price-asc",
     onSortChange,
+    selectedIds = [],
+    selectAll = false,
+    excludedIds = [],
+    onSelectionChange,
 }) => {
-    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const [localSelectedIds, setLocalSelectedIds] = useState<number[]>([]);
+    const [localSelectAll, setLocalSelectAll] = useState(false);
+    const [localExcludedIds, setLocalExcludedIds] = useState<number[]>([]);
+
+    const isControlled = onSelectionChange !== undefined;
+    const currentSelectAll = isControlled ? selectAll : localSelectAll;
+    const currentSelectedIds = isControlled ? selectedIds : localSelectedIds;
+    const currentExcludedIds = isControlled ? excludedIds : localExcludedIds;
+    const setCurrentSelection = isControlled
+        ? onSelectionChange
+        : (params: { selectedIds?: number[]; selectAll?: boolean; excludedIds?: number[] }) => {
+            if (params.selectedIds !== undefined) setLocalSelectedIds(params.selectedIds);
+            if (params.selectAll !== undefined) setLocalSelectAll(params.selectAll);
+            if (params.excludedIds !== undefined) setLocalExcludedIds(params.excludedIds);
+        };
 
     const getSortIcon = (field: string): string => {
         if (!onSortChange) return "";
@@ -38,25 +61,42 @@ export const ProductList: FC<ProductListProps> = ({
         } else {
             onSortChange(`${field}-asc` as SortValue);
         }
+        setCurrentSelection({ selectedIds: [], selectAll: false, excludedIds: [] });
     };
 
     const handleSelectAll = (checked: boolean): void => {
         if (checked) {
-            setSelectedIds(products.map((p) => p.id));
+            setCurrentSelection({ selectAll: true, excludedIds: [] });
         } else {
-            setSelectedIds([]);
+            setCurrentSelection({ selectAll: false, excludedIds: [], selectedIds: [] });
         }
     };
 
     const handleSelectProduct = (id: number, checked: boolean): void => {
+        if (currentSelectAll) {
+            if (!checked) {
+                setCurrentSelection({ excludedIds: [...currentExcludedIds, id] });
+            } else {
+                setCurrentSelection({ excludedIds: currentExcludedIds.filter((eid) => eid !== id) });
+            }
+            return;
+        }
+
         if (checked) {
-            setSelectedIds([...selectedIds, id]);
+            setCurrentSelection({ selectedIds: [...currentSelectedIds, id] });
         } else {
-            setSelectedIds(selectedIds.filter((sid) => sid !== id));
+            setCurrentSelection({ selectedIds: currentSelectedIds.filter((sid) => sid !== id) });
         }
     };
 
-    const isAllSelected = products.length > 0 && selectedIds.length === products.length;
+    const isItemSelected = (id: number): boolean => {
+        if (currentSelectAll) {
+            return !currentExcludedIds.includes(id);
+        }
+        return currentSelectedIds.includes(id);
+    };
+
+    const isAllSelectedGlobal = currentSelectAll && currentExcludedIds.length === 0;
 
     const columns: Column<Product>[] = [
         {
@@ -64,7 +104,7 @@ export const ProductList: FC<ProductListProps> = ({
             title: (
                 <div className="flex items-center justify-center">
                     <TableCheckbox
-                        checked={isAllSelected}
+                        checked={isAllSelectedGlobal}
                         onChange={handleSelectAll}
                     />
                 </div>
@@ -74,7 +114,7 @@ export const ProductList: FC<ProductListProps> = ({
             render: (_, record) => (
                 <div className="flex items-center justify-center">
                     <TableCheckbox
-                        checked={selectedIds.includes(record.id)}
+                        checked={isItemSelected(record.id)}
                         onChange={(checked) => handleSelectProduct(record.id, checked)}
                     />
                 </div>
@@ -206,7 +246,7 @@ export const ProductList: FC<ProductListProps> = ({
             data={products}
             isLoading={isLoading}
             emptyMessage="Товары не найдены"
-            selectedIds={selectedIds}
+            selectedIds={currentSelectAll ? products.filter((p) => !currentExcludedIds.includes(p.id)).map((p) => p.id) : currentSelectedIds}
         />
     );
 };

@@ -1,14 +1,18 @@
 import { type FC, useState, useMemo } from "react";
 import { Header } from "../../widgets/header";
-import { ProductList } from "../../widgets/product-list";
+import { ProductTable } from "./ProductTable";
 import { Pagination } from "../../widgets/pagination";
 import { AddProduct } from "../../features/add-product/ui";
 import { useGetProductsQuery } from "../../entities/product";
 import type { SortParams } from "../../shared/types";
 import { RefreshButton } from "../../features/refresh-products/ui/RefreshButton";
 import type { SortValue } from "../../shared/constants";
+import { useAppDispatch } from "../../app/providers";
+import { resetProductSelection } from "../../entities/product";
 
 export const ProductsPage: FC = () => {
+    const dispatch = useAppDispatch();
+
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
     const [sortValue, setSortValue] = useState<SortValue>("price-asc");
@@ -41,14 +45,16 @@ export const ProductsPage: FC = () => {
     const handleSortChange = (value: string): void => {
         setSortValue(value as SortValue);
         setCurrentPage(1);
+        dispatch(resetProductSelection());
     };
 
     const handleSearch = (query: string): void => {
         setSearchQuery(query);
         setCurrentPage(1);
+        dispatch(resetProductSelection());
     };
 
-    const handleRefresh = () => {
+    const handleRefresh = (): void => {
         setRefreshing(true);
         handleSortChange("price-asc");
         setTimeout(() => {
@@ -62,7 +68,9 @@ export const ProductsPage: FC = () => {
             <main className="w-full bg-[#fff] flex-1 flex flex-col">
                 <div className="px-2 lg:px-[30px] py-8 flex-1 flex flex-col">
                     <div className="flex justify-between gap-4 items-center mb-10">
-                        <span className="font-bold text-[22px] text-[#333] leading-[1] font-cairo">Все позиции</span>
+                        <span className="font-bold text-[22px] text-[#333] leading-[1] font-cairo">
+                            Все позиции
+                        </span>
                         <div className="flex gap-2">
                             <RefreshButton handleRefresh={handleRefresh} disabled={isRefreshing} />
                             <AddProduct />
@@ -70,11 +78,12 @@ export const ProductsPage: FC = () => {
                     </div>
 
                     <div className="overflow-auto mb-6 pl-[10px]">
-                        <ProductList
+                        <ProductTable
                             products={data?.products || []}
                             isLoading={isLoading || isRefreshing}
                             sortValue={sortValue}
                             onSortChange={handleSortChange}
+                            totalItems={data?.total}
                         />
                     </div>
 
