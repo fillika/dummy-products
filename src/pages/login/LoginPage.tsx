@@ -31,8 +31,8 @@ export const LoginPage: FC = () => {
     } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
-            username: "",
-            password: "",
+            username: "emilys",
+            password: "emilyspass",
             rememberMe: false,
         },
         mode: "onChange",
@@ -73,7 +73,7 @@ export const LoginPage: FC = () => {
                         <div className="text-[#232323] text-[40px] font-semibold leading-[1.1] tracking-[-1.5%] mb-3">
                             Добро пожаловать!
                         </div>
-                        <div className="text-[18px] font-medium leading-[1.5] text-center bg-gradient-to-b from-gray-400 to-[#E0E0E0] bg-clip-text text-transparent">
+                        <div className="text-[18px] font-medium leading-[1.5] text-center bg-gradient-to-b from-[#bababa] to-[#E0E0E0] bg-clip-text text-transparent">
                             Пожалуйста, авторизируйтесь
                         </div>
                     </div>
@@ -125,7 +125,7 @@ export const LoginPage: FC = () => {
                         </Button>
                         <div className="flex items-center justify-center">
                             <span className="w-full h-[2px] bg-[#ededed]"></span>
-                            <span className="mx-[10px] font-medium leading-[1.5] text-[16px] text-[#ebebeb] bg-gradient-to-b from-gray-400 to-[#ebebeb] bg-clip-text text-transparent">
+                            <span className="mx-[10px] font-medium leading-[1.5] text-[16px] text-[#ebebeb] bg-gradient-to-b from-[#bdbdbd] to-[#ebebeb] bg-clip-text text-transparent">
                                 или
                             </span>
                             <span className="w-full h-[2px] bg-[#ededed]"></span>
