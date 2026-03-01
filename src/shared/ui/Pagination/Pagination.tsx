@@ -1,5 +1,6 @@
-import { type FC } from "react";
+import { type FC, useMemo } from "react";
 import { cn } from "../../lib";
+import { getPageNumbers } from "../../lib/pagination";
 import { ChevronLeftIcon, ChevronRightIcon } from "../icons";
 import { Button } from "../Button";
 
@@ -23,24 +24,10 @@ export const Pagination: FC<PaginationProps> = ({
     const startItem = (currentPage - 1) * itemsPerPage + 1;
     const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
-    const getPageNumbers = (): (number | string)[] => {
-        const pages: (number | string)[] = [];
-        const maxVisible = 5;
-
-        if (totalPages <= maxVisible) {
-            return Array.from({ length: totalPages }, (_, i) => i + 1);
-        }
-
-        if (currentPage <= 3) {
-            pages.push(1, 2, 3, 4, "...", totalPages);
-        } else if (currentPage >= totalPages - 2) {
-            pages.push(1, "...", totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
-        } else {
-            pages.push(1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages);
-        }
-
-        return pages;
-    };
+    const pageNumbers = useMemo(
+        () => getPageNumbers(currentPage, totalPages),
+        [currentPage, totalPages]
+    );
 
     return (
         <div className={cn("h-[52px] flex flex-col-reverse items-center gap-4 sm:flex-row sm:justify-between", className)}>
@@ -59,7 +46,7 @@ export const Pagination: FC<PaginationProps> = ({
                 </Button>
 
                 <div className="flex items-center gap-[8px]">
-                    {getPageNumbers().map((page, index) =>
+                    {pageNumbers.map((page, index) =>
                         page === "..." ? (
                             <span
                                 key={`ellipsis-${index}`}

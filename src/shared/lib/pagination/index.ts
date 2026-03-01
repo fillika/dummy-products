@@ -1,0 +1,1 @@
+export { getPageNumbers } from "./getPageNumbers";
