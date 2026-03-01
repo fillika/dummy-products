@@ -24,24 +24,23 @@ export const BaseInput = ({
     id,
 }: BaseInputProps): React.JSX.Element => {
     const inputId = id ?? label?.toLowerCase().replace(/\s+/g, "-") ?? "";
+    const showMessage = error !== undefined || helperText !== undefined;
 
     return (
-        <div className="w-full">
+        <div className="w-full relative">
             {label !== undefined && (
                 <label
                     htmlFor={inputId}
-                    className="block text-[18px] font-medium text-secondary-700 mb-[6px]"
+                    className="block text-[16px] font-medium text-secondary-700 mb-[6px]"
                 >
                     {label}
                 </label>
             )}
             {children}
-            {(error !== undefined || helperText !== undefined) && (
+            {showMessage && (
                 <p
-                    className={cn(
-                        "mt-1 text-sm",
-                        error !== undefined ? "text-danger-600" : "text-secondary-500"
-                    )}
+                    className="absolute -bottom-[22px] left-0 text-sm text-danger-600"
+                    aria-live="polite"
                 >
                     {error ?? helperText}
                 </p>
